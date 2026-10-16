@@ -1,0 +1,46 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "rafiq-baz": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [{"glob":"**/*","input":"public"}],
+            "styles": ["src/styles.css","src/app/app.css","src/attributes.css","src/motion.css"],
+            "outputPath": {"base":"dist","browser":""}
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json",
+              "budgets": [
+                {"type":"initial","maximumWarning":"350kB","maximumError":"500kB"},
+                {"type":"anyComponentStyle","maximumWarning":"24kB","maximumError":"32kB"}
+              ]
+            },
+            "development": {"optimization":false,"sourceMap":true,"extractLicenses":false}
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "development": {"buildTarget":"rafiq-baz:build:development"},
+            "production": {"buildTarget":"rafiq-baz:build:production"}
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    }
+  },
+  "cli": {"analytics":false}
+}

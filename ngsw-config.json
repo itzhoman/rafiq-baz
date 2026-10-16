@@ -1,0 +1,8 @@
+{
+  "$schema":"./node_modules/@angular/service-worker/config/schema.json",
+  "index":"/index.html",
+  "assetGroups":[
+    {"name":"app","installMode":"prefetch","resources":{"files":["/index.html","/*.css","/*.js","/manifest.webmanifest","/assets/icon*.svg","/assets/icon*.png","/assets/*.woff2"]}},
+    {"name":"portraits","installMode":"lazy","updateMode":"lazy","resources":{"files":["/assets/*.webp","/assets/people/*.svg","/data/*.json"]}}
+  ]
+}

@@ -1,0 +1,26 @@
+<div class="auth-brand"><span><rb-icon name="flame" [filled]="true"/></span><b>{{txt('رفیق باز','rafiq baz')}}.</b><small>YOUR NEXT CHAPTER</small></div>
+<div class="auth-heading"><span>{{txt('یک شروع، برای رابطه‌ای واقعی','A START FOR SOMETHING REAL')}}</span><h2>{{mode()==='signup'?txt('داستانت از اینجا شروع می‌شه.','Your story starts here.'):txt('خوش برگشتی.','Welcome back.')}}</h2><p>{{mode()==='signup'?txt('حساب خودت رو بساز؛ ادامهٔ آشنایی با انتخاب تو.','Create your account. Make the next connection yours.'):txt('وارد حساب شو و آشنایی‌هات رو ادامه بده.','Sign in and pick up where you left off.')}}</p></div>
+<div class="auth-tabs"><button [class.selected]="mode()==='signup'" (click)="mode()!=='signup'&&switchMode()" [disabled]="auth.busy()">{{txt('ساخت حساب','Create account')}}</button><button [class.selected]="mode()==='login'" (click)="mode()!=='login'&&switchMode()" [disabled]="auth.busy()">{{txt('ورود','Sign in')}}</button></div>
+@if(!auth.apiMode){<div class="auth-notice"><rb-icon name="info"/><p>{{txt('این پیش‌نمایش آنلاین، حساب جدید ذخیره نمی‌کند. ساخت حساب در نسخهٔ متصل به سرویس حساب‌ها فعال است.','This online preview does not store new accounts. Account creation is available in the connected version.')}}</p></div>}
+@if(auth.error()){<p class="auth-error" role="alert">{{auth.error()}}</p>}
+<form class="auth-form" (ngSubmit)="submit()" #accountForm="ngForm">
+  <fieldset [disabled]="auth.busy()||!auth.emailEnabled()">
+  @if(mode()==='signup'){
+    <label>{{txt('نام نمایشی','Display name')}}<input name="accountName" [(ngModel)]="form.name" required maxlength="40" autocomplete="nickname" [placeholder]="txt('دوست داری چی صدات کنیم؟','What should we call you?')"></label>
+    <div class="auth-row"><label>{{txt('سن','Age')}}<input name="accountAge" [(ngModel)]="form.age" type="number" min="18" max="80" required></label><label>{{txt('شهر','City')}}<input name="accountCity" [(ngModel)]="form.city" required maxlength="60" autocomplete="address-level2" [placeholder]="txt('شهر تو','Your city')"></label></div>
+  }
+  <label>{{txt('ایمیل','Email')}}<input name="accountEmail" [(ngModel)]="form.email" type="email" required maxlength="254" autocomplete="email" placeholder="you@example.com" dir="ltr"></label>
+  <label>{{txt('رمز عبور','Password')}}<span class="password-field"><input name="accountPassword" [(ngModel)]="form.password" [type]="showPassword()?'text':'password'" required minlength="12" maxlength="128" [autocomplete]="mode()==='signup'?'new-password':'current-password'" dir="ltr" [placeholder]="txt('حداقل ۱۲ کاراکتر','At least 12 characters')"><button type="button" (click)="togglePassword()" [attr.aria-label]="showPassword()?txt('پنهان کردن رمز','Hide password'):txt('نمایش رمز','Show password')">{{showPassword()?txt('پنهان','Hide'):txt('نمایش','Show')}}</button></span></label>
+  @if(mode()==='signup'){<label class="adult-check"><input name="accountAdult" type="checkbox" [(ngModel)]="adult" required><span>{{txt('حداقل ۱۸ سال دارم.','I am at least 18 years old.')}}</span></label>}
+  <button class="like-button auth-submit" type="submit" [disabled]="accountForm.invalid||auth.busy()||!auth.emailEnabled()"><rb-icon [name]="auth.busy()?'spark':'arrow'"/>{{auth.busy()?txt('چند لحظه…','One moment…'):mode()==='signup'?txt('ساخت حساب من','Create my account'):txt('ورود به حساب','Sign in')}}</button>
+  </fieldset>
+</form>
+<div class="auth-divider"><span>{{txt('یا با حساب گوگل','OR CONTINUE WITH GOOGLE')}}</span></div>
+@if(auth.googleClientId()){
+  @if(mode()==='login'){<div class="auth-row google-onboarding"><label>{{txt('سن (۱۸ تا ۸۰)','Age (18–80)')}}<input name="googleAge" type="number" [(ngModel)]="form.age" min="18" max="80"></label><label>{{txt('شهر','City')}}<input name="googleCity" [(ngModel)]="form.city" maxlength="60"></label></div><label class="adult-check"><input type="checkbox" [(ngModel)]="adult">{{txt('حداقل ۱۸ سال دارم.','I am at least 18 years old.')}}</label>}
+  <div #googleButton class="google-official-button" [hidden]="!googleReady()"></div>
+  @if(!googleReady()){<button class="google-button" (click)="prepareGoogle()" [disabled]="googleBusy()||auth.busy()"><span class="google-g">G</span>{{txt('ادامه با گوگل','Continue with Google')}}</button>}
+}@else{
+  <button class="google-button" disabled><span class="google-g">G</span>{{txt('ورود گوگل · به‌زودی','Google sign-in · coming soon')}}</button><p class="google-pending">{{txt('اتصال گوگل هنوز توسط مدیر فعال نشده است.','Google sign-in has not been activated by the administrator yet.')}}</p>
+}
+<div class="auth-security"><rb-icon name="shield"/><span>{{txt('حساب شخصی تو؛ مستقل از پروفایل‌های نمونه.','Your own account, separate from sample profiles.')}}</span></div>

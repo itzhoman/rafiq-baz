@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">رفیق باز</string>
+    <string name="title_activity_main">رفیق باز</string>
+    <string name="package_name">com.rafiqbaz.app</string>
+    <string name="custom_url_scheme">com.rafiqbaz.app</string>
+</resources>

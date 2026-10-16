@@ -1,0 +1,442 @@
+{
+  "profiles": [
+    {
+      "id": "leila",
+      "name": "Leila",
+      "nameFa": "لیلا",
+      "age": 28,
+      "city": "Tehran",
+      "cityFa": "تهران",
+      "distance": 3,
+      "image": "/assets/leila.webp",
+      "online": true,
+      "verified": true,
+      "likesYou": true,
+      "bio": "A designer with a soft spot for little cafés, big ideas, and unplanned adventures.",
+      "bioFa": "طراح، عاشق کافه‌های دنج و ایده‌های بزرگ. بهترین سفرها از نظر من، سفرهای بی‌برنامه‌ان.",
+      "prompt": "A little café, a long walk, and a conversation we forget to end.",
+      "promptFa": "یه کافهٔ کوچیک، یه پیاده‌روی طولانی و گفتگویی که دلمون نخواد تموم بشه.",
+      "interests": [
+        "coffee",
+        "photo",
+        "travel",
+        "art"
+      ],
+      "relationshipGoal": "long_term",
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "آرام"
+        },
+        {
+          "key": "ارتباط",
+          "value": "گفتگو محور"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "کافه و گالری"
+        }
+      ]
+    },
+    {
+      "id": "armin",
+      "name": "Armin",
+      "nameFa": "آرمین",
+      "age": 30,
+      "city": "Tehran",
+      "cityFa": "تهران",
+      "distance": 7,
+      "image": "/assets/armin.webp",
+      "online": true,
+      "verified": true,
+      "likesYou": false,
+      "bio": "Architect during the week. Finding new trails and making questionable playlists on weekends.",
+      "bioFa": "معمار در طول هفته، کاشف مسیرهای تازه آخر هفته‌ها. برای هر حال‌وهوایی یه پلی‌لیست دارم.",
+      "prompt": "Getting a little lost on a trail, then finding the best coffee in town.",
+      "promptFa": "یه مسیر تازه توی طبیعت و بعدش پیدا کردن بهترین قهوهٔ شهر.",
+      "interests": [
+        "hiking",
+        "music",
+        "coffee",
+        "photo"
+      ],
+      "relationshipGoal": "long_term",
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "فعال"
+        },
+        {
+          "key": "ارتباط",
+          "value": "صریح"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "طبیعت"
+        }
+      ]
+    },
+    {
+      "id": "sara",
+      "name": "Sara",
+      "nameFa": "سارا",
+      "age": 26,
+      "city": "Karaj",
+      "cityFa": "کرج",
+      "distance": 18,
+      "image": "/assets/sara.webp",
+      "online": false,
+      "verified": true,
+      "likesYou": true,
+      "bio": "Collecting books, little moments, and stories from people I meet.",
+      "bioFa": "کتاب‌ها، لحظه‌های کوچیک و قصه‌های آدم‌ها رو جمع می‌کنم. همیشه آمادهٔ کشف یه گالری تازه‌ام.",
+      "prompt": "Browsing a bookshop and picking a book for each other.",
+      "promptFa": "بریم یه کتاب‌فروشی و برای همدیگه کتاب انتخاب کنیم.",
+      "interests": [
+        "books",
+        "art",
+        "coffee",
+        "cinema"
+      ],
+      "relationshipGoal": "long_term",
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "آرام"
+        },
+        {
+          "key": "ارتباط",
+          "value": "گفتگو محور"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "کتاب و سینما"
+        }
+      ]
+    },
+    {
+      "id": "daniyal",
+      "name": "Daniyal",
+      "nameFa": "دانیال",
+      "age": 31,
+      "city": "Tehran",
+      "cityFa": "تهران",
+      "distance": 5,
+      "image": "/assets/daniyal.webp",
+      "online": true,
+      "verified": true,
+      "likesYou": false,
+      "bio": "Software engineer. Amateur cook. Serious about live music and good conversation.",
+      "bioFa": "برنامه‌نویس و آشپز آماتور. موسیقی زنده و یه گفتگوی خوب، ترکیب مورد علاقه‌مه.",
+      "prompt": "Cooking something new together. The recipe is optional.",
+      "promptFa": "با هم یه غذای تازه بپزیم. لازم نیست حتماً طبق دستور پیش بریم!",
+      "interests": [
+        "music",
+        "cinema",
+        "travel",
+        "coffee"
+      ],
+      "relationshipGoal": "intentional",
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "اجتماعی"
+        },
+        {
+          "key": "ارتباط",
+          "value": "گفتگو محور"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "آشپزی"
+        }
+      ]
+    },
+    {
+      "id": "nika",
+      "name": "Nika",
+      "nameFa": "نیکا",
+      "age": 27,
+      "city": "Tehran",
+      "cityFa": "تهران",
+      "distance": 11,
+      "image": "/assets/nika.webp",
+      "online": true,
+      "verified": true,
+      "likesYou": false,
+      "bio": "Photographer chasing the light. Happiest by the mountains or beside the sea.",
+      "bioFa": "عکاسم و دنبال نور خوب می‌گردم. کنار دریا یا بالای کوه، خوشحال‌ترین نسخهٔ خودمم.",
+      "prompt": "Chasing a sunset with a camera and no particular plan.",
+      "promptFa": "با یه دوربین و بدون برنامه بریم دنبال غروب.",
+      "interests": [
+        "photo",
+        "hiking",
+        "travel",
+        "music"
+      ],
+      "relationshipGoal": "exploring",
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "ماجراجو"
+        },
+        {
+          "key": "ارتباط",
+          "value": "مستقل"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "طبیعت"
+        }
+      ]
+    },
+    {
+      "id": "mahan",
+      "name": "Mahan",
+      "nameFa": "ماهان",
+      "age": 29,
+      "city": "Tehran",
+      "cityFa": "تهران",
+      "distance": 9,
+      "image": "/assets/mahan.webp",
+      "online": false,
+      "verified": false,
+      "likesYou": true,
+      "bio": "Product designer and film enthusiast. Always finding a new café for a good conversation.",
+      "bioFa": "طراح محصول و طرفدار سینما. همیشه یه کافهٔ تازه برای یه گفتگوی خوب پیدا می‌کنم.",
+      "prompt": "A film festival, followed by a very long review over coffee.",
+      "promptFa": "یه فیلم خوب ببینیم و بعدش با قهوه مفصل درباره‌ش حرف بزنیم.",
+      "interests": [
+        "cinema",
+        "art",
+        "coffee",
+        "books"
+      ],
+      "relationshipGoal": "long_term",
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "آرام"
+        },
+        {
+          "key": "ارتباط",
+          "value": "گفتگو محور"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "سینما"
+        }
+      ]
+    },
+    {
+      "id": "raha",
+      "name": "Raha",
+      "nameFa": "رها",
+      "age": 27,
+      "distance": 4,
+      "online": true,
+      "likesYou": true,
+      "relationshipGoal": "long_term",
+      "bio": "A bookshop, a meaningful conversation, and a relationship that grows with honesty.",
+      "bioFa": "کتاب‌فروشی و گفتگوی عمیق رو دوست دارم. دنبال رابطه‌ای‌ام که با صداقت و شناخت ساخته بشه.",
+      "prompt": "An unhurried coffee and a conversation where we can both be ourselves.",
+      "promptFa": "یک قهوهٔ بی‌عجله و گفتگویی که هر دومون بتونیم خودمون باشیم.",
+      "interests": [
+        "coffee",
+        "books",
+        "photo",
+        "travel"
+      ],
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "آرام"
+        },
+        {
+          "key": "ارتباط",
+          "value": "گفتگو محور"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "کتاب و سینما"
+        }
+      ],
+      "city": "Tehran",
+      "cityFa": "تهران",
+      "verified": true,
+      "image": "/assets/raha.webp"
+    },
+    {
+      "id": "parsa",
+      "name": "Parsa",
+      "nameFa": "پارسا",
+      "age": 32,
+      "distance": 8,
+      "online": true,
+      "likesYou": false,
+      "relationshipGoal": "long_term",
+      "bio": "Architect, music lover, and looking for a partner to share both ordinary days and new experiences.",
+      "bioFa": "معمار و علاقه‌مند به موسیقی‌ام. همراهی برای روزهای معمولی و تجربه‌های تازه می‌خوام.",
+      "prompt": "A small live concert, then dinner somewhere neither of us has tried.",
+      "promptFa": "یه اجرای زندهٔ کوچیک و شام در جایی که هیچ‌کدوممون امتحان نکردیم.",
+      "interests": [
+        "music",
+        "art",
+        "coffee",
+        "cinema"
+      ],
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "اجتماعی"
+        },
+        {
+          "key": "ارتباط",
+          "value": "صریح"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "موسیقی زنده"
+        }
+      ],
+      "city": "Tehran",
+      "cityFa": "تهران",
+      "verified": true,
+      "image": "/assets/parsa.webp"
+    },
+    {
+      "id": "helia",
+      "name": "Helia",
+      "nameFa": "هلیا",
+      "age": 30,
+      "distance": 6,
+      "online": false,
+      "likesYou": true,
+      "relationshipGoal": "long_term",
+      "bio": "Art, little cafés, and a genuine intention to build something lasting with the right person.",
+      "bioFa": "هنر و کافه‌های کوچیک رو دوست دارم؛ دلم می‌خواد با آدم مناسب یک رابطهٔ ماندگار بسازم.",
+      "prompt": "A gallery we can explore at our own pace and a long walk afterward.",
+      "promptFa": "یه گالری که بی‌عجله با هم ببینیم و بعدش یه پیاده‌روی طولانی.",
+      "interests": [
+        "coffee",
+        "art",
+        "photo",
+        "books"
+      ],
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "آرام"
+        },
+        {
+          "key": "ارتباط",
+          "value": "گفتگو محور"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "کافه و گالری"
+        }
+      ],
+      "city": "Tehran",
+      "cityFa": "تهران",
+      "verified": true,
+      "image": "/assets/helia.webp"
+    },
+    {
+      "id": "navid",
+      "name": "Navid",
+      "nameFa": "نوید",
+      "age": 28,
+      "distance": 12,
+      "online": true,
+      "likesYou": false,
+      "relationshipGoal": "intentional",
+      "bio": "Active weekdays, spontaneous weekends. I value honesty, curiosity, and getting to know someone properly.",
+      "bioFa": "روزهای پرتحرک و آخرهفته‌های بی‌برنامه. صداقت و وقت گذاشتن برای شناختن همدیگه برام مهمه.",
+      "prompt": "Finding a new trail and choosing our next adventure over coffee.",
+      "promptFa": "یه مسیر تازه پیدا کنیم و با قهوه برای تجربهٔ بعدی برنامه بریزیم.",
+      "interests": [
+        "hiking",
+        "travel",
+        "music",
+        "coffee"
+      ],
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "پرانرژی"
+        },
+        {
+          "key": "ارتباط",
+          "value": "صریح"
+        },
+        {
+          "key": "وقت آزاد",
+          "value": "طبیعت"
+        }
+      ],
+      "city": "Tehran",
+      "cityFa": "تهران",
+      "verified": true,
+      "image": "/assets/navid.webp"
+    }
+  ],
+  "state": {
+    "likes": [],
+    "passed": [],
+    "saved": [],
+    "connections": [
+      "armin",
+      "sara"
+    ],
+    "messages": {
+      "armin": [
+        {
+          "id": "seed-a",
+          "text": "سلام! دیدم تو هم عکاسی دوست داری. معمولاً کجا عکاسی می‌کنی؟",
+          "mine": false,
+          "time": "۱۰:۲۴"
+        }
+      ],
+      "sara": [
+        {
+          "id": "seed-s",
+          "text": "آخرین کتابی که خوندی و دوست داشتی چی بود؟ 📚",
+          "mine": false,
+          "time": "دیروز"
+        }
+      ]
+    },
+    "preferences": {
+      "minAge": 25,
+      "maxAge": 35,
+      "distance": 50,
+      "interest": "all",
+      "online": false
+    },
+    "me": {
+      "name": "الکس",
+      "age": 29,
+      "city": "تهران",
+      "bio": "دنبال آشنایی با هدف یک رابطهٔ جدی‌ام. قهوه، موسیقی و سفر از علایق من هستند.",
+      "interests": [
+        "coffee",
+        "photo",
+        "music",
+        "travel"
+      ],
+      "relationshipGoal": "long_term",
+      "attributes": [
+        {
+          "key": "سبک زندگی",
+          "value": "آرام"
+        },
+        {
+          "key": "ارتباط",
+          "value": "گفتگو محور"
+        }
+      ]
+    },
+    "avoided": []
+  }
+}

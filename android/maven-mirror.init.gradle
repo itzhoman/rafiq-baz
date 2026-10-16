@@ -1,0 +1,12 @@
+// Opt-in fallback for environments where Google Maven is unavailable.
+// Applied before every project's buildscript, including Capacitor's package.
+gradle.beforeProject { project ->
+    project.buildscript.repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+    }
+    project.repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+    }
+}

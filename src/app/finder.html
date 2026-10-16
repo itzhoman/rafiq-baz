@@ -1,0 +1,58 @@
+<section class="finder-intro">
+  <div><div class="eyebrow"><span></span>{{txt('پیدا کردن · انتخاب زنده','FIND SOMEONE · LIVE PICKS')}}</div><h1>{{txt('یک نفر، یک','One person. A real')}} <em>{{txt('احتمال واقعی.','possibility.')}}</em></h1><p>{{txt('برای آشنایی با هدف رابطه، هر بار یک نفر را بشناس.','Meet one person at a time, with a relationship in mind.')}}</p></div>
+  <button class="outline-button" (click)="openFilters.emit()"><rb-icon name="sliders"/>{{txt('تنظیم پیشنهادها','Preferences')}}</button>
+</section>
+<div class="finder-status"><span><i></i>{{txt('پیشنهاد شخصی برای تو','PICKED FOR YOU')}}</span><small aria-live="polite">{{store.recommendations().length}} {{txt('پیشنهاد باقی‌مانده','people to discover')}}</small></div>
+
+@for(suggestion of current();track suggestion.profile.id){
+  @let person=suggestion.profile;
+  <article class="find-card" [attr.aria-label]="txt('پیشنهاد فعلی: ','Current suggestion: ')+name(person)">
+    <div class="find-portrait">
+      <img [src]="person.image" [alt]="name(person)" width="720" height="940" fetchpriority="high">
+      <span class="find-purpose"><rb-icon name="heart"/>{{goal(person.relationshipGoal)}}</span>
+      <div class="find-photo-caption"><h2 class="find-mobile-name">{{name(person)}}<span>، {{person.age}}</span>@if(person.verified){<rb-icon name="shield"/>}</h2><span>{{txt(person.cityFa,person.city)}} · {{person.distance}} {{txt('کیلومتر فاصله','km away')}}</span><b>{{txt('یک آشنایی، یک انتخاب.','One person. Your choice.')}}</b></div>
+    </div>
+    <div class="find-info">
+      <div class="find-copy">
+      <div class="find-overline"><rb-icon name="spark"/>{{txt('کمی نزدیک‌تر به آدمِ تو','A LITTLE CLOSER TO YOUR PERSON')}}</div>
+      <h2>{{name(person)}}<span>، {{person.age}}</span>@if(person.verified){<rb-icon name="shield"/>}</h2>
+      <p class="find-bio">{{txt(person.bioFa,person.bio)}}</p>
+      <div class="find-attributes">
+        <h3>{{txt('چند ویژگی از من','A LITTLE MORE ABOUT ME')}}</h3>
+        <div class="attribute-grid">
+          @for(attribute of person.attributes;track attribute.key){
+            <div [class.is-shared]="isShared(suggestion,attribute)"><span>{{attribute.key}}</span><strong>{{attribute.value}}@if(isShared(suggestion,attribute)){<rb-icon name="check"/>}</strong></div>
+          }@empty{<p>{{txt('هنوز ویژگی شخصی اضافه نشده.','No personal attributes added yet.')}}</p>}
+        </div>
+      </div>
+      <div class="find-interests">@for(interest of person.interests;track interest){<span [class.is-shared]="suggestion.sharedInterests.includes(interest)"><rb-icon [name]="interests[interest].icon"/>{{txt(interests[interest].fa,interests[interest].en)}}</span>}</div>
+      <div class="find-reason"><span><rb-icon name="spark"/>{{txt('چرا این پیشنهاد؟','WHY THIS PERSON?')}}</span><p>
+        @if(suggestion.sameGoal){<span>{{txt('هدف رابطهٔ مشترک','Same relationship intention')}}</span>}
+        @if(suggestion.sharedAttributes.length){<span>{{suggestion.sharedAttributes.length}} {{txt('ویژگی مشترک','shared attributes')}}</span>}
+        @if(suggestion.sharedInterests.length){<span>{{suggestion.sharedInterests.length}} {{txt('علاقهٔ مشترک','shared interests')}}</span>}
+        @if(!suggestion.sameGoal&&!suggestion.sharedAttributes.length&&!suggestion.sharedInterests.length){<span>{{txt('هماهنگ با فیلترهای انتخابی تو','Within your selected preferences')}}</span>}
+      </p></div>
+      </div>
+      <div class="find-controls"><div class="find-actions">
+        <button class="find-pass" (click)="passProfile.emit(person)" [disabled]="store.busy()"><rb-icon name="close"/>{{txt('رد کردن','Pass')}}</button>
+        <button class="find-like" (click)="likeProfile.emit(person)" [disabled]="store.busy()"><rb-icon name="heart" [filled]="true"/>{{txt('لایک','Like')}}</button>
+      </div>
+      <button class="find-avoid" (click)="avoidProfile.emit(person)" [disabled]="store.busy()"><rb-icon name="sliders"/>{{txt('مثل این پیشنهاد نده','Don’t suggest people like this')}}<rb-icon name="chevron"/></button>
+      <p class="find-decision-note">{{txt('رد کردن فقط همین فرد را کنار می‌گذارد؛ گزینهٔ آخر، الگوهای بسیار مشابه را هم حذف می‌کند.','Pass skips this person. The last option also hides very similar profiles.')}}</p>
+      </div>
+    </div>
+  </article>
+}@empty{
+  @if(store.profilesLoading()){
+    <section class="profile-loading" role="status"><span></span><div><i></i><i></i><i></i><p>{{txt('داریم پیشنهادها را آماده می‌کنیم…','Getting your suggestions ready…')}}</p></div></section>
+  }@else{
+  <section class="empty-state finder-empty"><span class="empty-icon"><rb-icon name="compass"/></span><h2>{{txt('این دور از پیشنهادها تمام شد.','You’ve reached the end of this round.')}}</h2><p>{{txt('فیلترها یا الگوهای کنارگذاشته‌شده را تغییر بده؛ انتخاب‌های قبلی‌ات حفظ می‌شوند.','Adjust filters or restore a hidden pattern. Your previous choices stay saved.')}}</p><div><button class="like-button" (click)="openFilters.emit()">{{txt('ویرایش فیلترها','Edit preferences')}}</button><button class="outline-button" (click)="store.resetPasses()" [disabled]="store.busy()">{{txt('دوباره دیدن ردشده‌ها','Revisit passed profiles')}}</button></div></section>
+  }
+}
+
+<div class="finder-personalize"><span class="personalize-icon"><rb-icon name="user"/></span><div><strong>{{txt('آدم مناسب، با شناخت بهتر تو.','Better matches start with knowing you.')}}</strong><p>{{txt('هدف رابطه و ویژگی‌های خودت را در پروفایل ثبت کن تا ترتیب پیشنهادها دقیق‌تر شود.','Add your relationship intention and personal attributes to personalize your suggestions.')}}</p></div><button (click)="editProfile.emit()">{{txt('ویژگی‌های من','My attributes')}}<rb-icon name="arrow"/></button></div>
+@if(avoidedProfiles().length){
+  <section class="hidden-patterns"><div><h3>{{txt('الگوهای کنارگذاشته‌شده','HIDDEN PATTERNS')}}</h3><small>{{txt('شباهت از روی علایق و ویژگی‌های نوشته‌شده محاسبه می‌شود.','Similarity uses only listed interests and personal attributes.')}}</small></div><div class="pattern-list">
+    @for(person of avoidedProfiles();track person.id){<button (click)="restorePattern(person)" [disabled]="store.busy()" [attr.aria-label]="txt('بازگرداندن الگوی ','Restore pattern: ')+name(person)"><span>{{name(person)}}</span><rb-icon name="undo"/>{{txt('بازگردانی','Restore')}}</button>}
+  </div></section>
+}

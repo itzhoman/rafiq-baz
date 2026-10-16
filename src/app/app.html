@@ -1,0 +1,230 @@
+<div class="app-root" [class.preview-mode]="mobilePreview" [class.english]="lang()==='en'" [attr.dir]="lang()==='fa'?'rtl':'ltr'">
+  @if(mobilePreview){
+    <div class="preview-bar"><span><i></i> {{txt('پیش‌نمایش اپ موبایل','MOBILE APP PREVIEW')}}</span><button (click)="previewMobile()">{{txt('نسخهٔ دسکتاپ','Desktop view')}} <rb-icon name="arrow"/></button></div>
+  }
+  <div class="shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a href="/" class="brand" aria-label="رفیق باز"><span class="brand-symbol"><rb-icon name="flame" [filled]="true"/></span><span>{{txt('رفیق باز','rafiq baz')}}<b>.</b></span></a>
+      <div class="workspace-label">{{txt('آشنایی با هدف یک رابطهٔ واقعی','DATE WITH A REAL CONNECTION IN MIND')}}</div>
+      <nav>
+        @for(item of navs;track item.page){
+          <button class="nav-item" [class.active]="page()===item.page" (click)="navigate(item.page)" [attr.aria-current]="page()===item.page?'page':null">
+            <rb-icon [name]="item.icon" [filled]="page()===item.page&&item.page==='find'"/><span>{{txt(item.fa,item.en)}}</span>
+            @if(item.page==='messages'){<span class="badge">{{store.connections().length}}</span>}
+            @if(item.page==='connections'){<small>{{store.connections().length}}</small>}
+          </button>
+        }
+      </nav>
+      <div class="sidebar-note">
+        <div class="note-icon"><rb-icon name="spark"/></div>
+        <strong>{{txt('یه سلام، هزار احتمال.','One hello. Endless possibilities.')}}</strong>
+        <p>{{txt('یک رابطهٔ خوب، از شناخت خودت و انتخاب آگاهانه شروع می‌شه.','A good relationship starts with knowing yourself and choosing intentionally.')}}</p>
+        <button (click)="navigate('profile')">{{txt('پروفایلت رو کامل کن','Make it personal')}} <rb-icon name="arrow"/></button>
+        <div class="note-orbit"></div>
+      </div>
+      <div class="sidebar-bottom">
+        <button class="settings-link" (click)="openModal('settings')"><rb-icon name="settings"/>{{txt('تنظیمات و راهنما','Settings & help')}}</button>
+        <button class="account" (click)="auth.user()?navigate('profile'):openModal('auth')">@if(auth.user()){<span class="user-monogram">{{store.state().me.name.slice(0,1)}}</span>}@else{<img src="/assets/mahan.webp" width="40" height="40" alt="">}<span><strong>{{auth.user()?store.state().me.name:txt('حساب خودت را بساز','Make it yours')}}</strong><small>{{auth.user()?auth.user()!.email:txt('ورود / ثبت‌نام','Sign in / Create account')}}</small></span><rb-icon name="chevron"/></button>
+      </div>
+    </aside>
+
+    <div class="main-shell">
+      <header class="topbar">
+        <a href="/" class="brand mobile-brand"><span class="brand-symbol"><rb-icon name="flame" [filled]="true"/></span><span>{{txt('رفیق باز','rafiq baz')}}<b>.</b></span></a>
+        <div class="breadcrumb"><span>{{txt('فضای من','My space')}}</span><rb-icon name="chevron"/><strong>{{title()}}</strong></div>
+        <div class="top-actions">
+          <span class="preview-label"><i></i>{{txt('نسخهٔ نمایشی','LIVE PREVIEW')}}</span>
+          <button class="account-entry" (click)="openModal(auth.user()?'settings':'auth')"><rb-icon name="user"/><span>{{auth.user()?txt('حساب من','My account'):txt('ورود / ثبت‌نام','Sign in')}}</span></button>
+          <button class="icon-button language-button" (click)="switchLang()" [attr.aria-label]="txt('تغییر زبان به انگلیسی','Switch to Persian')"><span>{{txt('EN','فا')}}</span></button>
+          <button class="icon-button notifications" (click)="openModal('notifications')" [attr.aria-label]="txt('اعلان‌ها','Notifications')"><rb-icon name="bell"/><i></i></button>
+          <button class="top-avatar" (click)="navigate('profile')" [attr.aria-label]="txt('پروفایل من','My profile')">@if(auth.user()){<span class="user-monogram">{{store.state().me.name.slice(0,1)}}</span>}@else{<img src="/assets/mahan.webp" width="36" height="36" alt="">}</button>
+        </div>
+      </header>
+
+      <main>
+        @for(scene of [page()];track scene){
+        <div class="page-scene" [attr.data-view]="scene">
+        @if(store.error()){
+          <div class="error-banner" role="alert"><rb-icon name="info"/><span>{{store.error()}}</span>@if(store.apiMode){<button (click)="store.load()">{{txt('تلاش دوباره','Retry')}}</button>}<button class="icon-button" (click)="store.error.set('')" aria-label="Close"><rb-icon name="close"/></button></div>
+        }
+        @if(page()==='find'){
+          <rb-finder [lang]="lang()" (likeProfile)="like($event)" (passProfile)="pass($event)" (avoidProfile)="avoid($event)" (editProfile)="navigate('profile')" (openFilters)="openModal('filters')"/>
+        }
+        @if(page()==='discover'){
+          <section class="page-intro">
+            <div><div class="eyebrow"><span></span> {{txt('کمی اتفاق، کمی انتخاب','A LITTLE CHANCE. A LITTLE CHOICE.')}}</div><h1>{{txt('فرصت یک','A chance for a')}} <em>{{txt('رابطهٔ واقعی.','real relationship.')}}</em></h1><p>{{txt('آشنایی با کسی که نگاهش به رابطه با تو نزدیکه.','Meet someone whose relationship intentions align with yours.')}}</p></div>
+            <button class="desktop-preview outline-button" (click)="previewMobile()"><rb-icon name="phone"/>{{txt('نمای موبایل','Mobile preview')}}<span>↗</span></button>
+          </section>
+
+          <div class="discovery-toolbar">
+            <div class="tabs" role="tablist" [attr.aria-label]="txt('دستهٔ پروفایل‌ها','Profile feed')">
+              <button role="tab" [attr.aria-selected]="tab()==='forYou'" [class.selected]="tab()==='forYou'" (click)="tab.set('forYou')">{{txt('برای تو','For you')}}<span class="tab-dot"></span></button>
+              <button role="tab" [attr.aria-selected]="tab()==='nearby'" [class.selected]="tab()==='nearby'" (click)="tab.set('nearby')">{{txt('نزدیک تو','Nearby')}}</button>
+              <button role="tab" [attr.aria-selected]="tab()==='online'" [class.selected]="tab()==='online'" (click)="tab.set('online')"><i class="online-dot"></i>{{txt('آنلاین','Online')}}</button>
+            </div>
+            <button class="filter-button" [class.has-filter]="filteredCount()>0" (click)="openModal('filters')"><rb-icon name="sliders"/><span>{{txt('فیلترها','Filters')}}</span>@if(filteredCount()){<b>{{filteredCount()}}</b>}</button>
+          </div>
+
+          @if(active();as profile){
+            <section class="profile-feature" aria-label="Featured profile">
+              <div class="portrait-wrap">
+                <img class="portrait" [src]="profile.image" [alt]="name(profile)" width="720" height="940" fetchpriority="high">
+                <div class="portrait-shade"></div>
+                <span class="online-pill" [class.offline]="!profile.online"><i></i>{{profile.online?txt('الان اینجاست','Online now'):txt('به‌تازگی فعال','Recently active')}}</span>
+                <button class="save-button" [class.saved]="store.state().saved.includes(profile.id)" (click)="save(profile)" [attr.aria-pressed]="store.state().saved.includes(profile.id)" [attr.aria-label]="txt('ذخیرهٔ پروفایل','Save profile')"><rb-icon name="bookmark" [filled]="store.state().saved.includes(profile.id)"/></button>
+                <div class="portrait-caption"><span>{{txt('هم‌سلیقه بودن، شروع خوبیه.','Your kind of energy.')}}</span><span class="photo-mark">01 <i></i> 01</span></div>
+                <div class="mobile-profile-heading"><h2>{{name(profile)}}<span>، {{profile.age}}</span>@if(profile.verified){<rb-icon name="shield"/>}</h2><div><rb-icon name="pin"/>{{city(profile)}} · {{profile.distance}} {{txt('کیلومتر از تو','km away')}}</div></div>
+              </div>
+
+              <div class="profile-details">
+                <div class="profile-overline"><span class="small-dot"></span>{{txt('شاید همون آدمِ تو','YOUR NEXT GOOD CONNECTION')}}<span class="profile-number">{{visible().length.toString().padStart(2,'0')}} / 01</span></div>
+                <div class="desktop-profile-heading">
+                  <h2>{{name(profile)}}<span>، {{profile.age}}</span>@if(profile.verified){<span class="verified" [attr.title]="txt('پروفایل نمونهٔ تأییدشده','Verified demo profile')"><rb-icon name="shield"/></span>}</h2>
+                  <p class="location"><rb-icon name="pin"/>{{city(profile)}}<span>·</span>{{profile.distance}} {{txt('کیلومتر فاصله','km away')}}</p>
+                </div>
+                <p class="profile-bio">{{bio(profile)}}</p>
+                <div class="interests-section">
+                  <div class="section-caption"><span>{{txt('علایق مشترک ما','WE BOTH LIKE')}}</span><small>{{shared(profile).length}} {{txt('علاقهٔ مشترک','in common')}}</small></div>
+                  <div class="interest-chips">
+                    @for(interest of profile.interests;track interest){
+                      <span class="interest-chip" [class.common]="store.state().me.interests.includes(interest)"><rb-icon [name]="interests[interest].icon"/>{{label(interest)}}@if(store.state().me.interests.includes(interest)){<i></i>}</span>
+                    }
+                  </div>
+                </div>
+                <div class="prompt-card"><span class="quote-mark">“</span><div><span class="prompt-label">{{txt('اولین قرارِ ایده‌آل من','MY IDEAL FIRST DATE')}}</span><p>{{lang()==='fa'?profile.promptFa:profile.prompt}}</p></div></div>
+                <div class="profile-actions">
+                  <button class="pass-button" (click)="pass(profile)" [disabled]="store.busy()"><rb-icon name="close"/>{{txt('بعدی','Pass')}}</button>
+                  <button class="like-button" (click)="like(profile)" [disabled]="store.busy()"><rb-icon name="heart" [filled]="true"/>{{txt('دوست دارم آشنا بشیم','I’d like to connect')}}</button>
+                </div>
+                <div class="action-footnote"><rb-icon name="shield"/>{{txt('گفتگو بعد از علاقهٔ دوطرفه شروع می‌شه.','Conversations begin when the feeling is mutual.')}}</div>
+              </div>
+            </section>
+
+            @if(upcoming().length){
+              <section class="up-next">
+                <div class="section-heading"><h3>{{txt('آدم‌های بعدی','A few more possibilities')}}<span>{{txt('هر آشنایی، یک داستان تازه','Every connection, a new story')}}</span></h3><button class="text-button" (click)="openModal('filters')">{{txt('تنظیم پیشنهادها','Your preferences')}}<rb-icon name="arrow"/></button></div>
+                <div class="upcoming-grid">
+                  @for(person of upcoming();track person.id){
+                    <button class="upcoming-card" (click)="selectedId.set(person.id)"><div class="upcoming-image"><img [src]="person.image" [alt]="name(person)" width="270" height="220" loading="lazy">@if(person.online){<span class="mini-online"><i></i>{{txt('آنلاین','Online')}}</span>}<span class="card-arrow"><rb-icon name="arrow"/></span></div><div class="upcoming-info"><strong>{{name(person)}}<span>، {{person.age}}</span></strong><small>{{city(person)}} · {{person.distance}} {{txt('کیلومتر','km')}}</small></div></button>
+                  }
+                </div>
+              </section>
+            }
+          }@else{
+            <section class="empty-state"><span class="empty-icon"><rb-icon name="compass"/></span><h2>{{txt('فعلاً به انتهای پیشنهادها رسیدی','You’ve explored everyone for now')}}</h2><p>{{txt('فیلترها رو بازتر کن یا پروفایل‌هایی که رد کردی، دوباره ببین.','Try widening your filters or revisiting profiles you passed.')}}</p><div><button class="like-button" (click)="clearFilters()">{{txt('گسترش فیلترها','Widen filters')}}</button><button class="outline-button" (click)="store.resetPasses()">{{txt('بازگرداندن ردشده‌ها','Revisit passed profiles')}}</button></div></section>
+          }
+        }
+
+        @if(page()==='likes'||page()==='connections'){
+          <section class="page-intro"><div><div class="eyebrow"><span></span>{{txt('جایی برای احتمال‌های خوب','ROOM FOR SOMETHING GOOD')}}</div><h1>{{page()==='likes'?txt('آدم‌های','People you'):txt('ارتباط‌های','Your')}} <em>{{page()==='likes'?txt('مورد علاقه.','like.'):txt('تازه.','connections.')}}</em></h1><p>{{page()==='likes'?txt('آدم‌هایی که توجهت رو جلب کردن، همین‌جان.','The people who caught your attention, all in one place.'):txt('علاقه دوطرفه‌ست؛ قدم بعدی، شناختن همدیگه‌ست.','The feeling is mutual. Now all it takes is hello.')}}</p></div></section>
+          @if(page()==='likes'){
+            <div class="discovery-toolbar"><div class="tabs"><button [class.selected]="likesTab()==='liked'" (click)="likesTab.set('liked')">{{txt('پسندیده‌ها','Liked')}} <span class="count">{{store.liked().length}}</span></button><button [class.selected]="likesTab()==='saved'" (click)="likesTab.set('saved')">{{txt('ذخیره‌ها','Saved')}} <span class="count">{{store.saved().length}}</span></button></div></div>
+          }
+          <div class="people-grid">
+            @for(person of page()==='likes'?list():store.connections();track person.id){
+              <article class="person-card">
+                <button class="person-photo" (click)="detail(person)"><img [src]="person.image" [alt]="name(person)" width="440" height="450" loading="lazy">@if(person.online){<span class="online-pill"><i></i>{{txt('آنلاین','Online')}}</span>}</button>
+                <div class="person-body"><h2>{{name(person)}}، {{person.age}} @if(person.verified){<rb-icon name="shield"/>}</h2><p class="location"><rb-icon name="pin"/>{{city(person)}} · {{person.distance}} {{txt('کیلومتر','km')}}</p><div class="small-chips">@for(interest of person.interests.slice(0,3);track interest){<span>{{label(interest)}}</span>}</div>
+                  @if(store.state().connections.includes(person.id)){<button class="like-button" (click)="startChat(person)"><rb-icon name="chat"/>{{txt('شروع گفتگو','Say hello')}}</button>}@else{<button class="outline-button" (click)="detail(person)">{{txt('مشاهدهٔ پروفایل','View profile')}}<rb-icon name="arrow"/></button>}
+                </div>
+              </article>
+            }@empty{
+              <div class="empty-state"><span class="empty-icon"><rb-icon name="heart"/></span><h2>{{txt('اینجا منتظر یه انتخاب خوبه','Your next connection is out there')}}</h2><p>{{txt('از صفحهٔ کشف شروع کن و آدم‌های مورد علاقه‌ت رو پیدا کن.','Explore Discover to find someone you’d like to meet.')}}</p><button class="like-button" (click)="navigate('discover')">{{txt('بریم کشف کنیم','Explore Discover')}}</button></div>
+            }
+          </div>
+        }
+
+        @if(page()==='messages'){
+          <section class="page-intro compact-intro"><div><div class="eyebrow"><span></span>{{txt('هر گفتگو، یک فرصت تازه','A CONVERSATION CAN CHANGE YOUR DAY')}}</div><h1>{{txt('از یک','Start with')}} <em>{{txt('سلام.','hello.')}}</em></h1></div><span class="subtle-label">{{txt('گفتگوهای نمایشی','DEMO CONVERSATIONS')}}</span></section>
+          <section class="messenger" [class.has-chat]="chat()">
+            <aside class="chat-list">
+              <div class="chat-list-title"><h3>{{txt('گفتگوها','Messages')}}</h3><span>{{store.connections().length}}</span></div>
+              <label class="chat-search"><rb-icon name="search"/><input [placeholder]="txt('جستجو در گفتگوها…','Search conversations…')" [ngModel]="chatSearch()" (ngModelChange)="chatSearch.set($event)"></label>
+              @for(person of chatList();track person.id){
+                <button class="chat-list-item" [class.selected]="chat()?.id===person.id" (click)="chatId.set(person.id)"><span class="chat-avatar"><img [src]="person.image" width="50" height="50" alt="">@if(person.online){<i></i>}</span><span class="chat-summary"><strong>{{name(person)}}<small>{{txt('نمایشی','Demo')}}</small></strong><span>{{lastMessage(person.id)}}</span></span></button>
+              }@empty{<p class="chat-no-results">{{txt('گفتگویی پیدا نشد','No conversations found')}}</p>}
+            </aside>
+            @if(chat();as person){
+              <div class="chat-pane"><header class="chat-header"><img [src]="person.image" width="42" height="42" alt=""><div><strong>{{name(person)}}</strong><span><i class="online-dot"></i>{{txt('گفتگوی نمایشی','Demo conversation')}}</span></div><button class="icon-button" (click)="detail(person)" [attr.aria-label]="txt('دیدن پروفایل','View profile')"><rb-icon name="info"/></button></header>
+                <div class="chat-messages" role="log" aria-live="polite"><div class="chat-date">{{txt('شروع یک آشنایی خوب','The beginning of a good connection')}}</div><div class="chat-disclaimer"><rb-icon name="shield"/>{{txt('این گفتگو برای تست است؛ پیام‌ها به شخص واقعی ارسال نمی‌شوند.','Demo only. Messages are not sent to a real person.')}}</div>
+                  @for(message of messages();track message.id){<div class="message-row" [class.mine]="message.mine"><div class="message-bubble"><p>{{message.text}}</p><small>{{message.time}}@if(message.mine){<rb-icon name="check"/>}</small></div></div>}
+                  <div id="chat-end"></div>
+                </div>
+                <form class="message-composer" (ngSubmit)="send()"><input name="message" [(ngModel)]="messageText" maxlength="1000" [placeholder]="txt('یه سلام می‌تونه شروع خوبی باشه…','A simple hello is a good place to start…')" [attr.aria-label]="txt('متن پیام','Message')"><button class="send-button" type="submit" [disabled]="!messageText.trim()" [attr.aria-label]="txt('ارسال پیام نمایشی','Send demo message')"><rb-icon name="send"/></button></form>
+              </div>
+            }@else{<div class="empty-state"><rb-icon name="chat"/><h2>{{txt('گفتگو بعد از آشنایی دوطرفه','A connection comes before a conversation')}}</h2><button class="like-button" (click)="navigate('discover')">{{txt('کشف آدم‌ها','Discover people')}}</button></div>}
+          </section>
+        }
+
+        @if(page()==='profile'){
+          <section class="page-intro"><div><div class="eyebrow"><span></span>{{txt('خودت باش؛ همین کافیه','THE REAL YOU IS ENOUGH')}}</div><h1>{{txt('داستان','Your')}} <em>{{txt('تو.','story.')}}</em></h1><p>{{txt('یه معرفی کوتاه، شروعِ آشنایی‌های بهتره.','A little about you goes a long way.')}}</p></div></section>
+          <div class="profile-editor-layout">
+            <form class="editor-card" (ngSubmit)="saveProfile()">
+              <div class="editor-header"><span class="edit-avatar">@if(auth.user()){<span class="user-monogram large">{{store.state().me.name.slice(0,1)}}</span>}@else{<img src="/assets/mahan.webp" width="80" height="80" alt="">}</span><div><h2>{{store.state().me.name}}</h2><p>{{auth.user()?txt('پروفایل شخصی تو','Your personal profile'):txt('پروفایل نمایشی تو','Your demo profile')}}</p></div><span class="outline-badge">{{auth.user()?'MEMBER':'DEMO'}}</span></div>
+              <div class="form-row"><label>{{txt('نام','Name')}}<input name="name" [(ngModel)]="draftMe.name" required maxlength="40"></label><label>{{txt('سن','Age')}}<input name="age" type="number" [(ngModel)]="draftMe.age" required min="18" max="80"></label></div>
+              <label>{{txt('شهر','City')}}<input name="city" [(ngModel)]="draftMe.city" maxlength="60" required></label>
+              <label>{{txt('کمی دربارهٔ تو','A little about you')}}<textarea name="bio" [(ngModel)]="draftMe.bio" rows="4" maxlength="400"></textarea><small class="field-count">{{draftMe.bio.length}} / 400</small></label>
+              <label>{{txt('هدفت از رابطه','Relationship intention')}}<select name="relationshipGoal" [(ngModel)]="draftMe.relationshipGoal">@for(goal of goalKeys;track goal){<option [value]="goal">{{txt(goals[goal].fa,goals[goal].en)}}</option>}</select></label>
+              <label>{{txt('چیزهایی که دوست داری','Things you love')}}</label><div class="interest-picker">@for(interest of interestKeys;track interest){<button type="button" [class.selected]="draftMe.interests.includes(interest)" (click)="selectInterest(interest)" [attr.aria-pressed]="draftMe.interests.includes(interest)"><rb-icon [name]="interests[interest].icon"/>{{label(interest)}}</button>}</div>
+              <section class="attribute-editor" [attr.aria-label]="txt('ویژگی‌های شخصی','Personal attributes')">
+                <div class="attribute-editor-title"><div><h3>{{txt('ویژگی‌های شخصی تو','Your personal attributes')}}</h3><p>{{txt('ویژگی‌هایی که دوست داری طرف مقابل درباره‌ات بداند. روی ترتیب پیشنهادها هم اثر دارند.','Tell a potential partner more about yourself. These also personalize your suggestions.')}}</p></div><span>{{draftMe.attributes.length}} / 12</span></div>
+                <div class="my-attribute-list">@for(attribute of draftMe.attributes;track attribute.key;let index=$index){<div><span>{{attribute.key}}</span><strong>{{attribute.value}}</strong><button type="button" (click)="removeAttribute(index)" [attr.aria-label]="txt('حذف ویژگی ','Remove attribute ')+attribute.key"><rb-icon name="close"/></button></div>}@empty{<p>{{txt('اولین ویژگی شخصی‌ات را اضافه کن.','Add your first personal attribute.')}}</p>}</div>
+                <div class="attribute-inputs"><label>{{txt('عنوان ویژگی','Attribute name')}}<input name="attributeKey" [(ngModel)]="attributeKey" maxlength="32" [placeholder]="txt('مثلاً سبک زندگی','e.g. Lifestyle')" (keydown.enter)="$event.preventDefault(); addAttribute()"></label><label>{{txt('مقدار ویژگی','Attribute value')}}<input name="attributeValue" [(ngModel)]="attributeValue" maxlength="80" [placeholder]="txt('مثلاً آرام','e.g. Relaxed')" (keydown.enter)="$event.preventDefault(); addAttribute()"></label><button class="outline-button" type="button" (click)="addAttribute()" [disabled]="draftMe.attributes.length>=12"><rb-icon name="check"/>{{txt('افزودن ویژگی','Add attribute')}}</button></div>
+                <small class="attribute-editor-help">{{txt('بعد از افزودن یا حذف ویژگی، «ذخیرهٔ تغییرات» را بزن.','Save changes after adding or removing attributes.')}}</small>
+              </section>
+              <div class="editor-footer"><span><rb-icon name="shield"/>{{auth.user()?txt('تغییرات در حساب شخصی تو ذخیره می‌شوند.','Changes are saved to your personal account.'):txt('تغییرات فقط در حساب نمایشی تو ذخیره می‌شوند.','Changes are saved to your demo account only.')}}</span><button class="like-button" type="submit" [disabled]="store.busy()"><rb-icon name="check"/>{{txt('ذخیرهٔ تغییرات','Save changes')}}</button></div>
+            </form>
+            <aside class="editor-tips"><span class="tip-illustration"><rb-icon name="spark"/></span><h3>{{txt('همون خودِ واقعی‌ت.','A little more you.')}}</h3><p>{{txt('از چیزهایی بنویس که باهاشون زنده‌ای؛ یه آهنگ، یه مسیر، یه فنجون قهوه. آدم‌های هم‌سلیقه از همین جزئیات پیدات می‌کنن.','Share the little things: a song, a trail, a perfect cup of coffee. The right people connect with the details.')}}</p><div><rb-icon name="check"/>{{txt('علایق مشترک، پیشنهادهای بهتر','Shared interests, better suggestions')}}</div><div><rb-icon name="check"/>{{txt('معرفی کوتاه و صمیمی','Keep it short and personal')}}</div></aside>
+          </div>
+        }
+        <footer class="page-footer"><span>{{txt('رفیق باز','rafiq baz')}}<b>.</b><small>{{txt('آدم‌های تازه. حس‌های واقعی.','New people. Real connections.')}}</small></span><span class="footer-demo"><i></i>{{txt('پیش‌نمایش تعاملی · افراد و اطلاعات نمونه','INTERACTIVE DEMO · SAMPLE PROFILES')}}</span></footer>
+        </div>}
+      </main>
+    </div>
+    <nav class="bottom-nav" [attr.aria-label]="txt('منوی موبایل','Mobile navigation')">
+      @for(item of navs;track item.page){
+        <button [class.active]="page()===item.page" (click)="navigate(item.page)" [attr.aria-current]="page()===item.page?'page':null"><span><rb-icon [name]="item.icon" [filled]="page()===item.page&&item.page==='find'"/>@if(item.page==='messages'){<i></i>}</span><small>{{txt(item.fa,item.en)}}</small></button>
+      }
+    </nav>
+  </div>
+
+  @if(toast()){<div class="toast" role="status"><span class="toast-check"><rb-icon name="check"/></span>{{toast()}}@if(lastPassed()){<button (click)="undo()"><rb-icon name="undo"/>{{txt('برگردان','Undo')}}</button>}</div>}
+
+  <dialog #dialog (click)="backdrop($event)" (cancel)="modal.set(null)" class="modal" [class.match-modal]="modal()==='match'" [class.auth-modal]="modal()==='auth'">
+    <div class="modal-content">
+      <button class="modal-close icon-button" (click)="closeModal()" [attr.aria-label]="txt('بستن','Close')"><rb-icon name="close"/></button>
+      @if(modal()==='filters'){
+        <div class="modal-eyebrow"><rb-icon name="sliders"/>{{txt('سلیقهٔ تو، انتخاب تو','YOUR PEOPLE. YOUR PREFERENCES.')}}</div><h2>{{txt('چه آدم‌هایی رو ببینی؟','Find your kind of person.')}}</h2><p class="modal-description">{{txt('پیشنهادها رو به حال‌وهوای خودت نزدیک‌تر کن.','A few details to bring the right people closer.')}}</p>
+        <form (ngSubmit)="applyFilters()"><div class="filter-range-label"><strong>{{txt('بازهٔ سن','Age range')}}</strong><span>{{draftPrefs.minAge}} — {{draftPrefs.maxAge}}</span></div><div class="form-row"><label>{{txt('از','From')}}<input name="minAge" type="number" [(ngModel)]="draftPrefs.minAge" min="18" max="80" required></label><label>{{txt('تا','To')}}<input name="maxAge" type="number" [(ngModel)]="draftPrefs.maxAge" min="18" max="80" required></label></div>
+          <label class="range-label">{{txt('فاصله تا تو','Distance')}}<strong>{{draftPrefs.distance}} {{txt('کیلومتر','km')}}</strong><input name="distance" type="range" [(ngModel)]="draftPrefs.distance" min="1" max="200"></label>
+          <label>{{txt('علاقهٔ مشترک','Shared interest')}}<select name="interest" [(ngModel)]="draftPrefs.interest"><option value="all">{{txt('همهٔ علایق','All interests')}}</option>@for(interest of interestKeys;track interest){<option [value]="interest">{{label(interest)}}</option>}</select></label>
+          <label class="switch-row"><span>{{txt('فقط آدم‌های آنلاین','Only people online now')}}</span><input name="online" type="checkbox" [(ngModel)]="draftPrefs.online" role="switch"></label>
+          <div class="modal-footer"><button type="button" class="text-button" (click)="resetDraft()">{{txt('بازنشانی','Reset')}}</button><button class="like-button" type="submit">{{txt('نمایش پیشنهادها','Show people')}}<rb-icon name="arrow"/></button></div>
+        </form>
+      }
+      @if(modal()==='match'&&matchProfile();as profile){
+        <div class="match-art"><img src="/assets/mahan.webp" width="110" height="110" alt=""><span><rb-icon name="heart" [filled]="true"/></span><img [src]="profile.image" width="110" height="110" [alt]="name(profile)"></div>
+        <div class="modal-eyebrow">IT’S A CONNECTION</div><h2>{{txt('این حس،','The feeling is')}} <em>{{txt('دوطرفه‌ست!','mutual!')}}</em></h2><p class="modal-description">{{txt('تو و '+name(profile)+' دوست دارید همدیگه رو بشناسید. وقت یه سلامه!','You and '+name(profile)+' would like to connect. Time to say hello!')}}</p><span class="match-demo">{{txt('ارتباط نمونه برای تست جریان برنامه','Sample connection for testing the app')}}</span>
+        <button class="like-button full-width" (click)="startChat(profile)"><rb-icon name="chat"/>{{txt('سلام، آشنای تازه!','Say hello')}}</button><button class="text-button full-width" (click)="closeModal()">{{txt('ادامهٔ کشف','Keep exploring')}}</button>
+      }
+      @if(modal()==='notifications'){
+        <div class="modal-eyebrow"><rb-icon name="bell"/>{{txt('خبرهای خوب','GOOD THINGS HAPPEN')}}</div><h2>{{txt('یه خبرهایی هست.','A little update.')}}</h2>
+        @for(person of store.connections();track person.id){
+          <button class="notification-item" (click)="startChat(person)"><img [src]="person.image" width="48" height="48" alt=""><span><strong>{{name(person)}}</strong><span>{{txt('یک آشنایی با هدف رابطه منتظر شروعه','A new connection is waiting for hello')}}</span><small>{{txt('اعلان نمایشی','Demo notification')}}</small></span><rb-icon name="chevron"/></button>
+        }
+      }
+      @if(modal()==='settings'){
+        @if(auth.user();as user){<div class="signed-account"><rb-icon name="shield"/><div><strong>{{user.name}}</strong><span dir="ltr">{{user.email}}</span></div><button class="outline-button" (click)="logout()" [disabled]="auth.busy()">{{txt('خروج','Sign out')}}</button></div>}
+        <div class="modal-eyebrow"><rb-icon name="settings"/> {{txt('تنظیمات و راهنما','SETTINGS & HELP')}}</div><h2>{{txt('رفیق باز، برای تو.','Make yourself at home.')}}</h2>
+        <button class="setting-row" (click)="switchLang()"><rb-icon name="globe"/><span>{{txt('زبان برنامه','App language')}}</span><strong>{{txt('فارسی ← English','English → فارسی')}}</strong></button>
+        <button class="setting-row" (click)="previewMobile()"><rb-icon name="phone"/><span>{{txt('پیش‌نمایش موبایل','Mobile preview')}}</span><rb-icon name="chevron"/></button>
+        <div class="demo-explanation"><rb-icon name="info"/><div><strong>{{txt('دربارهٔ این نسخه','About this preview')}}</strong><p>{{txt('این نسخه برای بررسی طراحی وب، اندروید و iOS آماده شده است. افراد و گفتگوها نمونه‌اند. پیام‌ها فقط در فضای نمایشی ذخیره می‌شوند.','This preview demonstrates the web, Android and iOS interface. Profiles and conversations are samples. Messages stay within the demo.')}}</p><span>{{store.apiMode?txt('متصل به API پایتون','Connected to Python API'):txt('حالت دمو · ذخیره در همین مرورگر','Demo mode · saved in this browser')}}</span></div></div>
+      }
+      @if(modal()==='detail'&&detailProfile();as profile){
+        <img class="detail-image" [src]="profile.image" [alt]="name(profile)" width="480" height="380"><h2>{{name(profile)}}، {{profile.age}}</h2><p class="location"><rb-icon name="pin"/>{{city(profile)}} · {{profile.distance}} {{txt('کیلومتر','km')}}</p><p class="modal-description">{{bio(profile)}}</p><div class="interest-chips">@for(interest of profile.interests;track interest){<span class="interest-chip"><rb-icon [name]="interests[interest].icon"/>{{label(interest)}}</span>}</div>
+        @if(store.state().connections.includes(profile.id)){<button class="like-button full-width" (click)="startChat(profile)"><rb-icon name="chat"/>{{txt('شروع گفتگو','Say hello')}}</button>}@else{<button class="like-button full-width" (click)="closeModal()">{{txt('برگشت','Back')}}</button>}
+      }
+      @if(modal()==='auth'){@defer(on immediate){<rb-auth [lang]="lang()" (authenticated)="accountReady()"/>}@loading{<p role="status">{{txt('در حال آماده‌سازی حساب…','Preparing your account…')}}</p>}}
+    </div>
+  </dialog>
+</div>
