@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/Angular-21-dd0031" alt="Angular 21" />
     <img src="https://img.shields.io/badge/Python-3.13-3776ab" alt="Python 3.13" />
   </p>
-  <p><a href="#quick-start">Run locally</a> · <a href="#screenshots">Screenshots</a> · <a href="#features">Features</a> · <a href="#project-status">Project status</a> · <a href="#فارسی">فارسی</a></p>
+  <p><a href="https://rafiq-baz-vercel-static.vercel.app/">Live demo</a> · <a href="#quick-start">Run locally</a> · <a href="#screenshots">Screenshots</a> · <a href="#features">Features</a> · <a href="#project-status">Project status</a> · <a href="#فارسی">فارسی</a></p>
 </div>
 
 ![Rafiq Baz desktop: one person at a time](docs/screenshots/finding-desktop-v3.jpg)
@@ -17,6 +17,8 @@
 Rafiq Baz explores how thoughtful profiles, clear relationship intentions and simple choices can make meeting someone feel more personal. Its matte-black and crimson interface pairs Persian RTL and English LTR layouts with a shared web/mobile application.
 
 **v0.3.0 is a working prototype.** It includes a Python account service and 110 fictional adult profiles for exploring the complete experience. Sample likes, presence indicators, connections and conversations do not represent real people.
+
+**[Try the public Vercel demo](https://rafiq-baz-vercel-static.vercel.app/)** · **[Mobile flow](https://rafiq-baz-vercel-static.vercel.app/mobile?view=find)**. The hosted build is an interactive Angular demo with fictional profiles and browser-local state. Run the Python service locally for real email/password account flows; the public demo does not host the API.
 
 ## Features
 
